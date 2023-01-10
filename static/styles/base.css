@@ -1,0 +1,17 @@
+:root {
+    --collar1 : #323232;
+    --collar2 : #82ADD9;
+    --collar3 : #F0F0F0;
+    --collar4 : #6C9BD2;
+    --collar5 : #2980AF;
+    --collar6 : #ED6D3D;
+    --collar7 : #EE7948;
+
+    --strCollar1 : var(--collar1);
+    --strCollar2 : var(--collar3);
+    --mainCollar : var(--collar4);
+    --subcollar  : var(--collar6);
+    --white      : var(--collar3);
+    --black      : var(--collar1);
+
+}

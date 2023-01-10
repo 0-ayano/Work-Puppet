@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Puppet</title>
+    
+    <!-- 初期設定 -->
+    <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+    <!-- CSS -->
+    <link rel='stylesheet' type='text/css' href="{% static 'styles/btn.css' %}" />
+    <link rel='stylesheet' type='text/css' href="{% static 'styles/area.css' %}" />
+    <link rel='stylesheet' type='text/css' href="{% static 'styles/form.css' %}" />
+    <link rel='stylesheet' type='text/css' href="{% static 'styles/result.css' %}" />
+    <link rel='stylesheet' type='text/css' href="{% static 'styles/main.css' %}" />
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{% static 'scripts/ajax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scripts/checkBtn.js' %}"></script>
+</head>
+
+<body>
+    
+</body>
+    <div class="horizontal main">
+        <div class="camera-frame">
+            <img src="video1/" width="100%" height="100%" id="camera" />
+
+            <div class="btn-circle">
+                <label id="changeCamera1" style="position:absolute;  bottom:5%;  right:23%;  width:8%;">
+                    <input type="button" />
+                    1
+                </label>
+    
+                <label id="changeCamera2" style="position:absolute;  bottom:5%;  right:13%;  width:8%;">
+                    <input type="button" />
+                    2
+                </label>
+    
+                <label id="changeCamera3" style="position:absolute;  bottom:5%;  right:3%;  width:8%;">
+                    <input type="button" />
+                    3
+                </label>
+            </div>
+        </div>
+
+        <div class="form-frame">
+            <div class="form">
+                <form id="target">
+                    <div class="basket">
+                        <input type="number" placeholder="操作番号" name="input-operation">
+                        :
+                        <input type="number" placeholder="入力値" name="input-value">
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-btn">
+                <div class="btn-circle">
+                    <label id="addElement" style="position:absolute;  top:13%;  left:20%;  width:30%;">
+                        <input type="button" />
+                        ＋
+                    </label>
+
+                    <label id="removeElement" style="position:absolute;  top:13%;  left:58%;  width:30%;">
+                        <input type="button" />
+                        ー
+                    </label>
+                </div>
+                
+                <div class="btn-small">
+                    <label id="judgment" style="position:absolute;  top:44%;  left:14%;  width:80%;">
+                        <input type="button" />
+                        <div id="current-judgment">
+                            ON
+                        </div>
+                    </label>
+
+                    <label style="position:absolute;  top:71%;  left:14%;  width: 80%;">
+                        <input type="button"id="ajax" />
+                        実行
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="horizontal side">
+        <div class="graph-frame">
+            <canvas id="graph"></canvas>
+        </div>
+
+        <div class="current-result" id="rom">
+            None value
+        </div>
+
+        <div class="btn-small">
+            <label style="position:absolute;  top:86%;  right:10%;    width: 35%;">
+                <input type="button" id="clear" />
+                クリア
+            </label>
+    
+            <label style="position:absolute;  top:86%;  left:10%;  width: 35%;">
+                <input type="button"download="In-Situ.csv" id="csvDL" />
+                ダウンロード
+            </label>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <table id="table">
+            <tbody>
+                <tr class="Top">
+                    <th>送信回数</th>
+                    <th>制御値</th>
+                    <th>測定値</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="Space"></div>
+</html>
