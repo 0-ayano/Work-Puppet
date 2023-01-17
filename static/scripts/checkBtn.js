@@ -29,11 +29,39 @@ function removeForm() {
 function changeText(){
     btnText = document.getElementById("current-judgment")
     if( btnText.innerText == "ON" ){
-        btnText.innerText = "OFF";
+        $.ajax({
+            'url': 'serialStart/',
+            'type': 'POST',
+            'data': {
+                'script' : "電源ON",
+            },
+            'dataType': 'json'
+       })
+       .done( function(response) {
+            btnText.innerText = response.msg;
+       })
+       .fail(function() {
+           // 通信失敗時の処理を記述
+           alert("電源がONに出来ません");
+       })
     }
 
     else if( btnText.innerText == "OFF" ){
-        btnText.innerText = "ON";
+        $.ajax({
+            'url': 'serialEnd/',
+            'type': 'POST',
+            'data': {
+                'script' : "電源OFF",
+            },
+            'dataType': 'json'
+       })
+       .done( function(response) {
+            btnText.innerText = response.msg;
+       })
+       .fail(function() {
+           // 通信失敗時の処理を記述
+           alert("電源がOFFに出来ません");
+       })
     }
 }
 
@@ -78,6 +106,10 @@ function handleDownload() {
     delete data_csv;
 }
 
+function OpenWindow(){
+    window.open('/mini.html','subwin','width=400,height=300')
+}
+
 document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("changeCamera1").addEventListener("click", changeCameraMode1, false)
     document.getElementById("changeCamera2").addEventListener("click", changeCameraMode2, false)
@@ -87,4 +119,5 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("judgment").addEventListener("click", changeText, false)
     document.getElementById("clear").addEventListener("click", clear, false)
     document.getElementById("csvDL").addEventListener("click", handleDownload, false)
+    document.getElementById("help").addEventListener("click", OpenWindow, false)
 }, false);

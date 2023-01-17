@@ -55,18 +55,21 @@ $(function($){
                 .done(function(response){
                     var element = document.getElementById('rom');
                     var table = document.getElementById('table');
-                    var row = table.insertRow(-1);
-                    var cells = new Array();
 
-                    element.innerText = response.result;
-                    cells[0] = row.insertCell(-1);
-                    cells[0].innerText = document.getElementById('table').rows.length - 1;
-                    cells[1] = row.insertCell(-1);
-                    cells[1].innerText = response.input;
-                    cells[2] = row.insertCell(-1);
-                    cells[2].innerText = response.result;
+                    for(var i = 0;  i < response.result.length;  i++ ){
+                        var row = table.insertRow(-1);
+                        var cells = new Array();
+                        
+                        element.innerText = response.result[i];
+                        cells[0] = row.insertCell(-1);
+                        cells[0].innerText = document.getElementById('table').rows.length - 1;
+                        cells[1] = row.insertCell(-1);
+                        cells[1].innerText = response.input[i];
+                        cells[2] = row.insertCell(-1);
+                        cells[2].innerText = response.result[i];
 
-                    create_Graph();
+                        create_Graph();
+                    }
                 })
                 .fail(function(){
                     alert("通信エラーです。次のことを確認してください。\n- 空白がある状態で、送信している")
@@ -97,32 +100,6 @@ $(function($){
 
         ajaxPost(e, operation, values)
     });
-
-    // 定期実行
-    $(function(){
-        setInterval(function(){
-            var operation = []
-            var values = []
-            var operation_list = document.getElementsByName('input-operation')
-            var values_list = document.getElementsByName('input-value')
-            var i;
-        
-            for(var i = 0;  i < operation_list.length;  i++ ){
-                operation.push(operation_list.item(i).value)
-                values.push(values_list.item(i).value)
-            }
-
-                var table = document.getElementById("table")
-                if(table.rows.length > 6){
-                    if ( Number(table.rows[table.rows.length-1].cells[2].innerText) !=  Number(table.rows[table.rows.length-5].cells[2].innerText) ||
-                        Number(table.rows[table.rows.length-1].cells[2].innerText) !=  Number(table.rows[table.rows.length-2].cells[2].innerText) ){
-                                if ( document.getElementById("current-judgment").innerText == "OFF" ) {
-                                    ajaxPost("", operation, values)
-                                }
-                    }
-                }
-        },1000);
-    });
 });
 
 function create_Graph(){
@@ -134,7 +111,7 @@ function create_Graph(){
     
     for(var i = 1;  i < table.rows.length; i++){
         data.push( Number(table.rows[i].cells[2].innerText) );
-        labels.push( Number(i) )
+        labels.push( Number(table.rows[i].cells[1].innerText) )
     }
 
     var lineChartData = {
