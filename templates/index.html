@@ -52,11 +52,18 @@
             <div class="form">
                 <form id="target">
                     <div class="basket">
-                        <input type="number" placeholder="操作番号" name="input-operation">
+                        <input type="number" placeholder="命令番号" name="input-operation">
                         :
-                        <input type="number" placeholder="入力値" name="input-value">
+                        <input type="number" placeholder="指令値" name="input-value">
                     </div>
                 </form>
+
+                <div class="btn-circle">
+                    <label id="help" style="position:fixed;  bottom:10%;  left:58%;  width:10%; z-index: 2;">
+                        <input type="button" />
+                        ？
+                    </label>
+                </div>
             </div>
 
             <div class="form-btn">
@@ -74,7 +81,7 @@
                 
                 <div class="btn-small">
                     <label id="judgment" style="position:absolute;  top:44%;  left:14%;  width:80%;">
-                        <input type="button" />
+                        <input type="button"/>
                         <div id="current-judgment">
                             ON
                         </div>
@@ -115,8 +122,8 @@
         <table id="table">
             <tbody>
                 <tr class="Top">
-                    <th>送信回数</th>
-                    <th>制御値</th>
+                    <th>測定回数</th>
+                    <th>電圧</th>
                     <th>測定値</th>
                 </tr>
             </tbody>

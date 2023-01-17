@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ReadJson</title>
+</head>
+<body>
+    <!-- ここにjavascriptを実装する-->
+    <script type="text/javascript">
+
+        // jsonデータをセット
+        const help = [
+            { "mode" : 1,  "script" : "最大電圧の設定" },
+            { "mode" : 2,  "script" : "最小電圧の設定" },
+            { "mode" : 3,  "script" : "変化幅の設定" },
+            { "mode" : 4,  "script" : "測定値の測定速度の設定" },
+            { "mode" : 10, "script" : "手動入力モード、電圧の設定" },
+            { "mode" : 20, "script" : "自動入力モード、最大電圧の設定" },
+        ];
+
+        // jsonデータの件数分ループ処理
+        for(let i = 0; i < help.length; i++){
+            document.write(
+                "<h2>命令番号：" + help[i].mode + "</h2>" + 
+                "<div>説明：" + help[i].script + "</div>"
+            )
+        }
+
+    </script>
+
+</body>
+</html>
