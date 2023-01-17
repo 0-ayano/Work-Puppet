@@ -34,10 +34,11 @@ def generate_frame(id = 0):
     capture.release()
 
 def ajaxPost(request):
-    inputOperation = request.POST.getlist('InputOperation[]')
-    inputValue = request.POST.getlist('InputValue[]')
+    inputOperation = request.POST.getlist('InputOperation')
+    inputValue = request.POST.getlist('InputValue')
+    inputTempo = request.POST.getlist('tempo')
 
-    resultMain, resultSetting = serialMain( request.session.get('ser'), inputOperation, inputValue )
+    resultMain, resultSetting = serialMain( inputOperation, inputValue, inputTempo )
 
     d = {
         'input' : resultSetting,
