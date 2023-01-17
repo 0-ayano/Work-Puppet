@@ -40,7 +40,7 @@ $(function($){
     });
 
     /* ここからがメインイベント */ 
-    function ajaxPost(e, operation, values){
+    function ajaxPost(e, operation, values, tempo){
         try {
             if ( document.getElementById("current-judgment").innerText == "OFF" ) {
                 $.ajax({
@@ -48,7 +48,8 @@ $(function($){
                     'type': 'POST',
                     'data': {
                     'InputOperation': operation,
-                    'InputValue': values,
+                    'InputValue'    : values,
+                    'tempo'         :tempo,
                     },
                     'dataType': 'json'
                 })
@@ -87,19 +88,51 @@ $(function($){
     // 不定期実行
     $('#ajax').on('click', function(e) {
         e.preventDefault()
-    
-        var operation = []
-        var values = []
         var operation_list = document.getElementsByName('input-operation')
         var values_list = document.getElementsByName('input-value')
+
+        var maxValue = 255
+        var minValue = 0
+        var sec      = 100
+        var width    = 5
+        var tempo    = sec/1000
     
-        for(var i = 0;  i < operation_list.length;  i++ ){
-            operation.push(operation_list.item(i).value)
-            values.push(values_list.item(i).value)
+        if ( document.getElementById("current-judgment").innerText == "OFF" ) {
+            for(var i = 0;  i < operation_list.length;  i++ ){
+                var value = values_list.item(i).value
+                
+                switch(Number(operation_list.item(i).value)){
+                    case  0: ajaxPost(e, 0, 0, tempo);                  break;
+                    case  1: maxValue = value;                          break;
+                    case  2: minValue = value;                          break;
+                    case  3: width    = value;                          break;
+                    case  4: tempo    = value/1000;                     break;
+                    case 10: ajaxPost(e, 10, value, tempo);             break;
+                    case 20: AutoRun(e, value, tempo, minValue, width); break;
+                }
+            }
         }
 
-        ajaxPost(e, operation, values)
+        else {
+            alert("電源を入れてください")
+        }
     });
+
+    async function AutoRun(e, value, tempo, minValue, width){
+        for (var i = minValue; i <= value; i+=width){
+            ajaxPost(e, 10, i, tempo)
+            await sleep( (tempo/2 + 0.5)*1000 );
+        }
+
+        for (var i = value; i >= minValue; i-=width){
+            ajaxPost(e, 10, i, tempo)
+            await sleep( (tempo/2 + 0.5)*1000 );
+        }
+    }
+
+    function sleep(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+    }
 });
 
 function create_Graph(){

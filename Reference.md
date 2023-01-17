@@ -55,6 +55,7 @@
 ## その他
 - [【JS】addEventListenerが機能しない理由についてご教示ください](https://teratail.com/questions/24714)
 - [jQueryでsetIntervalを使って特定の間隔でfunction処理を繰り返し行う（タイマー処理）方法](https://black-flag.net/jquery/20110715-3339.html)
+- [JavaScriptでスリープを実装する](https://www.techiedelight.com/ja/sleep-in-javascript/)
 
 # Python
 ## シリアル通信
