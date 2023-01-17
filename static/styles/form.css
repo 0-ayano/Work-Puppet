@@ -30,6 +30,7 @@
     transform: translateX(-50%);
     text-align: center;
     font-size: 150%;
+    z-index: 1;
 }
 .basket input[type='number'] {
     text-align: center;

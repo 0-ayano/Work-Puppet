@@ -1,14 +1,20 @@
 import os
 os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
 import cv2
+import serial
+import time
+from serial.tools import list_ports
 from django.http import StreamingHttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render
 
 from .InSitu import *
 
-def index(req):
-    return render(req, 'index.html')
+def index(request):
+    return render(request, 'index.html')
+
+def miniWindow(request):
+    return render(request, 'mini.html')
 
 def video_feed_view(id = 0):
     return lambda _: StreamingHttpResponse(generate_frame(id), content_type='multipart/x-mixed-replace; boundary=frame')  
@@ -30,17 +36,12 @@ def generate_frame(id = 0):
 def ajaxPost(request):
     inputOperation = request.POST.getlist('InputOperation[]')
     inputValue = request.POST.getlist('InputValue[]')
-    result = 0
-    inputData=""
-    for i in range( len(inputValue) ):
-        result = int(inputValue[i]) + result
-        inputData = inputData + inputOperation[i] + ":" + inputValue[i] + "、"
 
-    result = Arduino( str(result) )
+    resultMain, resultSetting = serialMain( request.session.get('ser'), inputOperation, inputValue )
 
     d = {
-        'input' : inputData,
-        'result': result,
+        'input' : resultSetting,
+        'result': resultMain,
     }
 
     return JsonResponse(d)
