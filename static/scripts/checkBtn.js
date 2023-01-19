@@ -27,8 +27,9 @@ function removeForm() {
 }
 
 function changeText(){
-    btnText = document.getElementById("current-judgment")
-    if( btnText.innerText == "ON" ){
+    btnText  = document.getElementById("current-judgment")
+
+    if( btnText.innerText == "OFF" ){
         $.ajax({
             'url': 'serialStart/',
             'type': 'POST',
@@ -39,14 +40,11 @@ function changeText(){
        })
        .done( function(response) {
             btnText.innerText = response.msg;
-       })
-       .fail(function() {
-           // 通信失敗時の処理を記述
-           alert("電源がONに出来ません");
+            document.getElementById("judgment").style.backgroundColor = '#ED6D3D';
        })
     }
 
-    else if( btnText.innerText == "OFF" ){
+    else if( btnText.innerText == "ON" ){
         $.ajax({
             'url': 'serialEnd/',
             'type': 'POST',
@@ -57,10 +55,7 @@ function changeText(){
        })
        .done( function(response) {
             btnText.innerText = response.msg;
-       })
-       .fail(function() {
-           // 通信失敗時の処理を記述
-           alert("電源がOFFに出来ません");
+            document.getElementById("judgment").style.backgroundColor = '#82ADD9';
        })
     }
 }
