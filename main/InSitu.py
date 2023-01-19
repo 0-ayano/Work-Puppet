@@ -4,11 +4,11 @@ from serial.tools import list_ports
 from django.http import JsonResponse
 
 def serialStart(request):
-    msg = "ON"
+    msg = "OFF"
     ports=list_ports.comports()
     device=[info for info in ports if "Arduino" in info.description]
     if len(device) != 0:
-        msg = "OFF"
+        msg = "ON"
 
     d = {
         'input' : "1",
@@ -18,14 +18,17 @@ def serialStart(request):
     return JsonResponse(d)
 
 def serialEnd(request):
-    msg = "ON"
+    msg = "OFF"
     ports=list_ports.comports()
     device=[info for info in ports if "Arduino" in info.description]
     if len(device) != 0:
-        ser = serial.Serial(device[0].device)
-        flag = bytes("0;0;", 'utf-8')
-        ser.write(flag)
-        ser.close()
+        try:
+            ser = serial.Serial(device[0].device)
+            flag = bytes("0;0;", 'utf-8')
+            ser.write(flag)
+            ser.close()
+        except:
+            pass
         
     d = {
         'input' : "0",

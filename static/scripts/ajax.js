@@ -42,7 +42,7 @@ $(function($){
     /* ここからがメインイベント */ 
     function ajaxPost(e, operation, values, tempo){
         try {
-            if ( document.getElementById("current-judgment").innerText == "OFF" ) {
+            if ( document.getElementById("current-judgment").innerText == "ON" ) {
                 $.ajax({
                     'url': 'ajaxPost/',
                     'type': 'POST',
@@ -76,39 +76,51 @@ $(function($){
                     alert("通信エラーです。次のことを確認してください。\n- 空白がある状態で、送信している")
                 })
             }
-    
-            else {
-                alert("電源を入れてください")
-            }
         } catch (e) {
             console.log(e.message)
         }
     }
 
     // 不定期実行
-    $('#ajax').on('click', function(e) {
+    /* asyncを使うと関数をスレッドにできるよ！、awaitを使うとそれが処理されるまで待機 */
+    $('#ajax').on('click', async function(e) {
         e.preventDefault()
-        var operation_list = document.getElementsByName('input-operation')
-        var values_list = document.getElementsByName('input-value')
+        var operation_list = document.getElementsByName('input-operation');
+        var values_list = document.getElementsByName('input-value');
 
-        var maxValue = 255
-        var minValue = 0
-        var sec      = 100
-        var width    = 5
-        var tempo    = sec/1000
+        var maxValue = 255;
+        var minValue = 0;
+        var sec      = 100;
+        var width    = 5;
+        var tempo    = sec/1000;
+
+        document.getElementById("run-prog").innerText = "実行中";
+        document.getElementById("ajax").disabled = true;
+        document.getElementById("runBtn").style.backgroundColor = '#ED6D3D';
+
     
-        if ( document.getElementById("current-judgment").innerText == "OFF" ) {
+        if ( document.getElementById("current-judgment").innerText == "ON" ) {
             for(var i = 0;  i < operation_list.length;  i++ ){
-                var value = values_list.item(i).value
+                console.log(i);
+                var value = values_list.item(i).value;
+
+                if (document.getElementById("current-judgment").innerText == "OFF"){
+                    ajaxPost(e, 0, 0, tempo);
+                    document.getElementById("run-prog").innerText="実行"
+                    document.getElementById("ajax").disabled = false
+                    document.getElementById("runBtn").style.backgroundColor = '#82ADD9';
+
+                    i = operation_list.length + 1;
+                }
                 
                 switch(Number(operation_list.item(i).value)){
-                    case  0: ajaxPost(e, 0, 0, tempo);                  break;
-                    case  1: maxValue = value;                          break;
-                    case  2: minValue = value;                          break;
-                    case  3: width    = value;                          break;
-                    case  4: tempo    = value/1000;                     break;
-                    case 10: ajaxPost(e, 10, value, tempo);             break;
-                    case 20: AutoRun(e, value, tempo, minValue, width); break;
+                    case  0: await ajaxPost(e, 0, 0, tempo);                  break;
+                    case  1: maxValue = await value;                          break;
+                    case  2: minValue = await value;                          break;
+                    case  3: width    = await value;                          break;
+                    case  4: tempo    = await value/1000;                     break;
+                    case 10: await ajaxPost(e, 10, value, tempo);             break;
+                    case 20: await AutoRun(e, value, tempo, minValue, width); break;
                 }
             }
         }
@@ -116,17 +128,40 @@ $(function($){
         else {
             alert("電源を入れてください")
         }
+        document.getElementById("run-prog").innerText="実行"
+        document.getElementById("ajax").disabled = false
+        document.getElementById("runBtn").style.backgroundColor = '#82ADD9';
+
     });
 
     async function AutoRun(e, value, tempo, minValue, width){
-        for (var i = minValue; i <= value; i+=width){
+        value    = Number(value)
+        minValue = Number(minValue)
+        width    = Number(width)
+        for (var i = minValue; i <= value; i += width){
             ajaxPost(e, 10, i, tempo)
-            await sleep( (tempo/2 + 0.5)*1000 );
+            await sleep( (tempo/2 + 0.6)*1000 );
+
+            if (document.getElementById("current-judgment").innerText == "OFF"){
+                ajaxPost(e, 0, 0, tempo); 
+                i = value + 1
+                document.getElementById("run-prog").innerText="実行"
+                document.getElementById("ajax").disabled = false
+                document.getElementById("runBtn").style.backgroundColor = '#82ADD9';
+            }
         }
 
-        for (var i = value; i >= minValue; i-=width){
+        for (var i = value; i >= minValue; i -= width){
             ajaxPost(e, 10, i, tempo)
-            await sleep( (tempo/2 + 0.5)*1000 );
+            await sleep( (tempo/2 + 0.6)*1000 );
+
+            if (document.getElementById("current-judgment").innerText == "OFF"){
+                ajaxPost(e, 0, 0, tempo); 
+                i = minValue + 1
+                document.getElementById("run-prog").innerText="実行"
+                document.getElementById("ajax").disabled = false
+                document.getElementById("runBtn").style.backgroundColor = '#82ADD9';
+            }
         }
     }
 
