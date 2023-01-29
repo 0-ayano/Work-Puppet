@@ -81,6 +81,7 @@
                 
                 <div class="btn-small">
                     <label id="judgment" style="position:absolute;  top:44%;  left:14%;  width:80%;">
+                        {% csrf_token %}
                         <input type="button"/>
                         <div id="current-judgment">
                             OFF
@@ -88,6 +89,7 @@
                     </label>
 
                     <label id="runBtn" style="position:absolute;  top:71%;  left:14%;  width: 80%;">
+                        {% csrf_token %}
                         <input type="button"id="ajax" />
                         <div id="run-prog">
                             実行
