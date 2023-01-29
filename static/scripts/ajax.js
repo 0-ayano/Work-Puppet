@@ -40,10 +40,10 @@ $(function($){
     });
 
     /* ここからがメインイベント */ 
-    function ajaxPost(e, operation, values, tempo){
+    async function ajaxPost(e, operation, values, tempo){
         try {
             if ( document.getElementById("current-judgment").innerText == "ON" ) {
-                $.ajax({
+                await $.ajax({
                     'url': 'ajaxPost/',
                     'type': 'POST',
                     'data': {
@@ -114,13 +114,28 @@ $(function($){
                 }
                 
                 switch(Number(operation_list.item(i).value)){
-                    case  0: await ajaxPost(e, 0, 0, tempo);                  break;
-                    case  1: maxValue = await value;                          break;
-                    case  2: minValue = await value;                          break;
-                    case  3: width    = await value;                          break;
-                    case  4: tempo    = await value/1000;                     break;
-                    case 10: await ajaxPost(e, 10, value, tempo);             break;
-                    case 20: await AutoRun(e, value, tempo, minValue, width); break;
+                    case  0:
+                        await ajaxPost(e, 0, 0, tempo);
+                        break;
+                    case  1:
+                        maxValue = await value;
+                        break;
+                    case  2:
+                        minValue = await value;
+                        break;
+                    case  3:
+                        width = await value;
+                        break;
+                    case  4:
+                        tempo = await value/1000;
+                        break;
+                    case 10:
+                        await ajaxPost(e, 10, value, tempo);
+                        await sleep( (tempo/2 + 0.6)*1000 );
+                        break;
+                    case 20:
+                        await AutoRun(e, value, tempo, minValue, width);
+                        break;
                 }
             }
         }

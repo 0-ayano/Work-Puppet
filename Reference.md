@@ -7,6 +7,9 @@
 - [OpenCVのカメラ読み込みを高速化し、遅延時間も短くする](https://qiita.com/iwatake2222/items/b8c442a9ec0406883950)
 - [【JavaScript入門】すぐわかる！画像を切り替える方法](https://www.sejuku.net/blog/63834)
 
+## その他
+- [Django CSRFCookieが設定されていません](https://qastack.jp/programming/17716624/django-csrf-cookie-not-set)
+
 # CSS
 ## 配置
 - [CSSで複数の要素を横並びにする方法](https://neatdesignjournal.com/css-display/)
