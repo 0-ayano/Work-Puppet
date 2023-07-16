@@ -1,0 +1,19 @@
+:root {
+    --color-white: #fafafa;
+    --color-blue: #1e72b2;
+    --color-orange: #ff8a00;
+    --color-black: #0a0a0a;
+    --color-grey1: #f1f1f1;
+    --color-grey2: #a8a8a8;
+
+    /* 配色アイディア手帖P114 */
+    --color-off_white: #fff8f7;
+    /* --color-soft_white: #fefaf4; */
+    /* --color-lvory_white: #fffbec; */
+    /* --color-champagne_white: #feefd3; */
+    /* --color-white_peach: #fce7db; */
+    /* --color-pale_gray: #deegee; */
+    /* --color-pale_blue: #ccddee; */
+    /* --color-pale_purple: #f1dse1; */
+    /* --color-white_mocha: #edddc5; */
+}
